@@ -3,11 +3,68 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <style media="screen">
+      body {
+        background-color: #111;
+      }
+
+      div {
+        font-family: monospace;
+        color: #CCC;
+        background-color: #222;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-size: 48px;
+        width: 74px;
+        margin-bottom: 5px;
+      }
+
+      div.selected {
+        border: 1px solid #DDD;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div>A</div>
+    <div>C</div>
+    <div>D</div>
+    <div>G</div>
   </body>
+  <script type="text/javascript">
+    var items = Array.from(document.getElementsByTagName('div'))
+    var curIdx = 0
+
+    function updateWidgets () {
+      items.forEach(function (item, idx) {
+        if (idx === curIdx) item.classList.add('selected')
+        else item.classList.remove('selected')
+      })
+    }
+
+    function nextWidget () {
+      curIdx = (curIdx + 1) % items.length
+      updateWidgets()
+    }
+
+    function prevWidget () {
+      curIdx = (curIdx + items.length - 1) % items.length
+      updateWidgets()
+    }
+
+    updateWidgets()
+
+    document.addEventListener('keyup', function (k) {
+      k = k.which
+
+      if (k === 38) {
+        // Up
+        prevWidget()
+      } else if (k === 40) {
+        // Down
+        nextWidget()
+      }
+    })
+
+  </script>
 </html>
